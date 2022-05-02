@@ -13,6 +13,8 @@
 ## Comandos Django
 | Comando |
 |---------|
+| django-admin startproject Proyecto3 |
+| django-admin startapp home |
 | py manage.py makesuperuser |
 | py manage.py makemigrations |
 | py manage.py migrate |
