@@ -15,7 +15,7 @@
 |---------|
 | django-admin startproject Proyecto3 |
 | django-admin startapp home |
-| py manage.py makesuperuser |
+| py manage.py createsuperuser |
 | py manage.py makemigrations |
 | py manage.py migrate |
 | py manage.py runserver |
