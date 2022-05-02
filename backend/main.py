@@ -13,11 +13,14 @@ ctrl = Ctrl()
 def home():
     return 'Servidor funcionando'
 
-@app.route('/upload',methods = ['POST'])
+@app.route('/xml',methods = ['POST'])
 def upload():
     data = request.json
-    print(data)
     return ctrl.upload(data['ruta'])
+
+@app.route('/xml',methods = ['GET'])
+def analize():
+    return #ctrl.analize(data)
 
 if __name__ == '__main__':
     app.run(port = 3000,debug = True)
