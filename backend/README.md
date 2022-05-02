@@ -9,3 +9,11 @@
 | git remote add origin 'repositorio' | Agrega al repositorio |
 | git push -u origin main | Sube los cambios al repositorio |
 | git status | Mira el estado de los cambios realizados |
+
+## Comandos Django
+| Comando |
+|---------|
+| py manage.py makesuperuser |
+| py manage.py makemigrations |
+| py manage.py migrate |
+| py manage.py runserver |
