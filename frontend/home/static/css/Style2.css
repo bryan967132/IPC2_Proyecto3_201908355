@@ -157,6 +157,18 @@ h4{
     border-color: var(--rojo);
     cursor: pointer;
 }
+
+.btn-3{
+    background-color: var(--primary);
+}
+.btn-3:hover{
+    color: var(--primary);
+    background-color: var(--blanco);
+    border: 2px solid;
+    border-color: var(--primary);
+    cursor: pointer;
+}
+
 @media (min-width: 768px) {
     .button{
         width: auto;

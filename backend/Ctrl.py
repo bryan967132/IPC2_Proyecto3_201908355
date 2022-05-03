@@ -29,6 +29,14 @@ class Archivo:
         self.mensajes = mensajes
 
 class Parser:
+    def deleteChar(self,texto):
+        texto = texto.lower()
+        vocales = [{'á':'a'},{'é':'e'},{'í':'i'},{'ó':'o'},{'ú':'u'}]
+        for par in vocales:
+            for k in par:
+                texto = texto.replace(k,par[k])
+        return texto
+
     def parseXML(self,ruta : str):
         myDoc = minidom.parse(ruta)
 
@@ -36,13 +44,13 @@ class Parser:
         etiquetas = myDoc.getElementsByTagName('sentimientos_positivos')
         for positivos in etiquetas:
             for palabra in positivos.getElementsByTagName('palabra'):
-                sent_pos.append(palabra.firstChild.data.strip())
+                sent_pos.append(self.deleteChar(palabra.firstChild.data.strip()))
 
         sent_neg = []
         etiquetas = myDoc.getElementsByTagName('sentimientos_negativos')
         for negativos in etiquetas:
             for palabra in negativos.getElementsByTagName('palabra'):
-                sent_neg.append(palabra.firstChild.data.strip())
+                sent_neg.append(self.deleteChar(palabra.firstChild.data.strip()))
 
         empresas = []
         etiquetas = myDoc.getElementsByTagName('empresa')
@@ -54,14 +62,14 @@ class Parser:
                 nomServ = servicio.attributes['nombre'].value.strip()
                 alias = []
                 for al in servicio.getElementsByTagName('alias'):
-                    alias.append(al.firstChild.data.strip())
-                servicios.append(Servicio(nomServ,alias).__dict__)
-            empresas.append(Empresa(nombre,servicios).__dict__)
+                    alias.append(self.deleteChar(al.firstChild.data.strip()))
+                servicios.append(Servicio(self.deleteChar(nomServ),alias).__dict__)
+            empresas.append(Empresa(self.deleteChar(nombre),servicios).__dict__)
         
         mensajes = []
         etiquetas = myDoc.getElementsByTagName('mensaje')
         for mensaje in etiquetas:
-            mensajes.append(Mensaje(mensaje.firstChild.data.strip()).__dict__)
+            mensajes.append(Mensaje(self.deleteChar(mensaje.firstChild.data.strip())).__dict__)
             
         return Archivo(sent_pos,sent_neg,empresas,mensajes).__dict__
 
@@ -70,6 +78,14 @@ class Ctrl:
         self.archivos = []
 
     def upload(self,ruta : str):
-        self.parsed = Parser().parseXML(ruta)
-        contenido = open(ruta).read()
-        return json.dumps({'response':contenido})
+        try:
+            self.parsed = Parser().parseXML(f'../{ruta}')
+            contenido = open(f'../{ruta}',encoding = 'utf-8').read()
+            return json.dumps({'response':contenido})
+        except:
+            return json.dumps({'response':''})
+    
+    def analize(self):
+        self.parsed['positivos']
+        self.parsed['negativos']
+        return {'response':'resultado'}
