@@ -39,13 +39,11 @@
             </div>
         </div>
         <div class="contenedor">
-            <div class="derecha">
-                <form method="POST">
-                    {% csrf_token %}
-                    <input name="btnSend" type="submit" value="Enviar" class="button btn-1 w-100">
-                    <input name="btnReset" type="submit" value="Reset" class="button btn-2 w-100">
-                </form>
-            </div>
+            <form method="POST" class="derecha">
+                {% csrf_token %}
+                <input name="btnSend" type="submit" value="Enviar" class="button btn-1 w-100">
+                <input name="btnReset" type="submit" value="Reset" class="button btn-2 w-100">
+            </form>
         </div>
         <div class="contenedor dos-columnas">
             <textarea name="input" class="input" disabled="true">{{enter}}</textarea>
