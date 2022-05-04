@@ -4,4 +4,5 @@ from django.db import models
 
 class Archivo(models.Model):
     root = models.CharField(max_length = 200)
-    content = models.TextField()
+    content = models.TextField(null = True)
+    response = models.TextField(null = True)

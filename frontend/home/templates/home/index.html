@@ -8,19 +8,18 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/Style2.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/Style4.css' %}">
 </head>
 <body>
     <header class="header">
-        <div class="contenedor">
-            <div class="barra">
-                <a href="#" class="logo">
-                    <h1 class="logo__nombre no-margin centrar-texto">Tecnologías<span class="logo__bold">Chapinas</span></h1>
-                </a>
-                <nav class="navegacion">
-                    
-                    <form method="POST" class="navegacion">
-                        {% csrf_token %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="contenedor">
+                <div class="barra">
+                    <a href="#" class="logo">
+                        <h1 class="logo__nombre no-margin centrar-texto">Tecnologías<span class="logo__bold">Chapinas</span></h1>
+                    </a>
+                    <nav class="navegacion">
                         <div class="navegacion__enlace">
                             <input type="file" name="fileup" id="fileup" class="inputfile inputfile-1" accept=".xml"/>
                             <label for="fileup">
@@ -28,28 +27,36 @@
                                 <span class="iborrainputfile">Seleccionar archivo</span>
                             </label>
                         </div>
-                        <div class="navegacion__enlace">
-                            <button name="btnCarga" class="button btn-3 w-100">Carga</button>
-                        </div>
-                    </form>
-
-                    <a href="#" class="navegacion__enlace">Peticiones</a>
-                    <a href="#" class="navegacion__enlace">Ayuda</a>
-                </nav>
+                        <nav id="menu"  class="navegacion__enlace">
+                            <ul>
+                                <li>
+                                    <a href="#">Peticiones</a>
+                                    <ul>
+                                        <li><input name="btnCnslt" type="submit" value="Consultar Datos"></input></li>
+                                        <li><input name="btnClsfc" type="submit" value="Resumen de Clasificación por Fecha"></input></li>
+                                        <li><input name="btnRango" type="submit" value="Resumen por Rango de Fechas"></input></li>
+                                        <li><input name="btnRprte" type="submit" value="Reporte en PDF"></input></li>
+                                        <li><input name="btnPrueb" type="submit" value="Prueba de Mensaje"></input></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                        <a href="#" class="navegacion__enlace">Ayuda</a>
+                    </nav>
+                </div>
             </div>
-        </div>
-        <div class="contenedor">
-            <form method="POST" class="derecha">
-                {% csrf_token %}
-                <input name="btnSend" type="submit" value="Enviar" class="button btn-1 w-100">
-                <input name="btnReset" type="submit" value="Reset" class="button btn-2 w-100">
-            </form>
-        </div>
-        <div class="contenedor dos-columnas">
-            <textarea name="input" class="input" disabled="true">{{enter}}</textarea>
-            <textarea name="input" class="input" disabled="true"></textarea>
-        </div>
+            <div class="contenedor">
+                <div class="derecha">
+                    <input name="btnSend" type="submit" value="Enviar" class="button btn-1 w-100">
+                    <input name="btnReset" type="submit" value="Reset" class="button btn-2 w-100">
+                </div>
+            </div>
+            <div class="contenedor dos-columnas">
+                <textarea name="input" class="input" disabled="true">{{enter}}</textarea>
+                <textarea name="input" class="input" disabled="true">{{out}}</textarea>
+            </div>
+        </form>
     </header>
-
+    <script src="{% static 'js/Script.js' %}"></script>
 </body>
 </html>
