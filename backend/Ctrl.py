@@ -1,3 +1,5 @@
+from datetime import date
+from flask import jsonify
 from xml.dom import minidom
 import json
 import re
@@ -18,7 +20,11 @@ class Servicio:
         self.alias = alias
 
 class Mensaje:
-    def __init__(self,mensaje : str):
+    def __init__(self,lugar : str,fecha : str,usuario : str,red_social : str,mensaje : str):
+        self.lugar = lugar
+        self.fecha = fecha
+        self.usuario = usuario
+        self.red_social = red_social
         self.mensaje = mensaje
 
 class Archivo:
@@ -69,7 +75,17 @@ class Parser:
         mensajes = []
         etiquetas = myDoc.getElementsByTagName('mensaje')
         for mensaje in etiquetas:
-            mensajes.append(Mensaje(self.deleteChar(mensaje.firstChild.data.strip())).__dict__)
+            campo = self.deleteChar(mensaje.firstChild.data.replace('\n','').strip())
+            usuario = re.findall('usuario:\s+[a-z0-9]*@[a-z]*.[a-z]*',campo)[0]
+            campo = campo.replace(usuario,'')
+            usuario = usuario.replace('usuario:','')
+            lugar_fecha = re.findall('lugar y fecha:\s+[a-z0-9]*,\s+[0-3]?[0-9]/[0-1]?[0-9]/[0-9]*\s+[0-2]?[0-9]:[0-5]?[0-9]',campo)[0]
+            campo = campo.replace(lugar_fecha,'')
+            lugar_fecha = lugar_fecha.replace('lugar y fecha:','').split(',')
+            red_social = re.findall('red social:\s+[a-z]*',campo)[0]
+            campo = campo.replace(red_social,'')
+            red_social = red_social.replace('red social:','')
+            mensajes.append(Mensaje(lugar_fecha[0].strip(),lugar_fecha[1].strip(),usuario.strip(),red_social.strip(),campo.strip()).__dict__)
             
         return Archivo(sent_pos,sent_neg,empresas,mensajes).__dict__
 
@@ -78,14 +94,9 @@ class Ctrl:
         self.archivos = []
 
     def upload(self,ruta : str):
-        try:
-            self.parsed = Parser().parseXML(f'../{ruta}')
-            contenido = open(f'../{ruta}',encoding = 'utf-8').read()
-            return json.dumps({'response':contenido})
-        except:
-            return json.dumps({'response':''})
+        self.parsed = Parser().parseXML(f'../{ruta}')
+        contenido = open(f'../{ruta}',encoding = 'utf-8').read()
+        return json.dumps({'content':contenido,'parsed': self.parsed})
     
     def analize(self):
-        self.parsed['positivos']
-        self.parsed['negativos']
-        return {'response':'resultado'}
+        return self.temporal
