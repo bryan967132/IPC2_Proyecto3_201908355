@@ -25,7 +25,6 @@ def upload(requests):
     if rutaF != 'None':
         contenido = json.loads(req.post('http://127.0.0.1:3000/xml',json = {"ruta":rutaF}).text)
         Archivo.objects.create(root = rutaF,content = contenido['content'],parsed = contenido['parsed'])
-    print('PASA DEL IF')
 
 def sendXml():
     enter = ''

@@ -34,11 +34,6 @@
                     <alias> inscribí </alias>
                     <alias> inscrito </alias>
                 </servicio>
-                <servicio nombre="asignación">
-                    <alias> asignado </alias>
-                </servicio>
-                <servicio nombre="graduación">
-                </servicio>
             </empresa>
         </empresas_analizar>
     </diccionario>
@@ -47,14 +42,14 @@
             Lugar y fecha: Guatemala, 01/04/2022 15:01
             Usuario: map0001@usac.edu
             Red social: Twitter
-            El servicio en la USAC para inscripción fue muy bueno y me siento muy satisfecho.
+            El servicio en la USAC para inscripción y asignación fue muy bueno y me siento muy satisfecho.
         </mensaje>
         <mensaje> 
             Lugar y fecha: Guatemala, 
-            01/04/2022 15:20 Usuario: map0002@usac.edu
+            10/07/2022 15:20 Usuario: map0002@usacedu
             Red social: Facebook
-            Hoy me inscribí 
-            en la USAC, no encontré parqueo e inicié molesto mi gestión, luego tuve que hacer 
+            Hoy me inscribí y quedé asignado
+            en la USAC, no encontré parqueo e inicié iRtRA molesto mi gestión, luego tuve que hacer 
             cola y me indicaron que era la cola incorrecta, esto me enojó mucho y mejor me
             fui.
         </mensaje>
@@ -62,9 +57,9 @@
             Lugar y fecha: Guatemala, 01/04/2022 15:43
             Usuario: map0003@usac.edu 
             Red social: WhatsApp
-            Ya estoy inscrito en la USAC, el proceso fue muy bueno, pero al salir, 
+            Ya estoy inscrito en la USAC, el proceso IRTRA fue muy bueno, pero al salir, 
             mi carro tenía pinchadas las llantas, esto me preocupó 
-            y me fui decepcionado.
+            y me fui decepcionado y sin graduación.
         </mensaje>
     </lista_mensajes>
 </solicitud_clasificacion>
