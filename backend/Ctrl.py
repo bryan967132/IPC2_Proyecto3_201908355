@@ -117,7 +117,6 @@ class Ctrl:
     def countGeneral(self):
         msg_fecha_general = []
         for fecha in self.fechas:
-            msg_analize_general = []
             pos = 0
             neg = 0
             neut = 0
@@ -134,8 +133,7 @@ class Ctrl:
                     else:
                         neut += 1
                     cantmsg += 1
-            msg_analize_general.append({'positivos':pos,'negativos':neg,'neutros':neut,'analisis':self.countByDate(fecha)})
-            msg_fecha_general.append({fecha:msg_analize_general})
+            msg_fecha_general.append({fecha:{'positivos':pos,'negativos':neg,'neutros':neut,'analisis':self.countByDate(fecha)}})
         return msg_fecha_general
     
     def countByDate(self,fecha):
