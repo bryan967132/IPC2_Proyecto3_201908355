@@ -7,29 +7,30 @@ import json
 
 def home(requests):
     enter = ''
+    out = ''
     if requests.method == 'POST' and 'btnSend' in requests.POST:
         try:
             upload(requests)
         except:
             pass
         try:
-            enter = sendXml()
+            enter = Archivo.objects.last().content
         except:
             pass
     if requests.method == 'POST' and  'btnReset' in requests.POST:
-            Archivo.objects.all().delete()
-    return render(requests,'home/index.html',{'status':'working','enter':enter})
+        Archivo.objects.all().delete()
+    if requests.method == 'POST' and 'btnCnslt' in requests.POST:
+        try:
+            enter = Archivo.objects.last().content
+            out = Archivo.objects.last().response
+        except:
+            pass
+    return render(requests,'home/index.html',{'status':'working','enter':enter,'out':out})
 
 def upload(requests):
     rutaF = requests.POST.get('fileup')
     if rutaF != 'None':
-        contenido = json.loads(req.post('http://127.0.0.1:3000/xml',json = {"ruta":rutaF}).text)
-        Archivo.objects.create(root = rutaF,content = contenido['content'],parsed = contenido['parsed'])
-
-def sendXml():
-    enter = ''
-    rutaF = Archivo.objects.last()
-    print(rutaF)
-    if rutaF:
-        enter = rutaF.content
-    return enter
+        entrada = req.post('http://127.0.0.1:3000/xml',json = {"ruta":rutaF}).text
+        salida = req.get('http://127.0.0.1:3000/xml').text
+        if entrada.strip() != '':
+            Archivo.objects.create(root = rutaF,content = entrada,response = salida)

@@ -28,13 +28,6 @@
                 <servicio nombre="graduación">
                 </servicio>
             </empresa>
-            <empresa> 
-                <nombre> IRTRA </nombre>
-                <servicio nombre="inscripción"> 
-                    <alias> inscribí </alias>
-                    <alias> inscrito </alias>
-                </servicio>
-            </empresa>
         </empresas_analizar>
     </diccionario>
     <lista_mensajes>
@@ -46,10 +39,10 @@
         </mensaje>
         <mensaje> 
             Lugar y fecha: Guatemala, 
-            10/07/2022 15:20 Usuario: map0002@usacedu
+            01/04/2022 15:20 Usuario: map0002@usac.edu
             Red social: Facebook
             Hoy me inscribí y quedé asignado
-            en la USAC, no encontré parqueo e inicié iRtRA molesto mi gestión, luego tuve que hacer 
+            en la USAC, no encontré parqueo e inicié molesto mi gestión, luego tuve que hacer 
             cola y me indicaron que era la cola incorrecta, esto me enojó mucho y mejor me
             fui.
         </mensaje>
@@ -57,7 +50,7 @@
             Lugar y fecha: Guatemala, 01/04/2022 15:43
             Usuario: map0003@usac.edu 
             Red social: WhatsApp
-            Ya estoy inscrito en la USAC, el proceso IRTRA fue muy bueno, pero al salir, 
+            Ya estoy inscrito en la USAC, el proceso fue muy bueno, pero al salir, 
             mi carro tenía pinchadas las llantas, esto me preocupó 
             y me fui decepcionado y sin graduación.
         </mensaje>
