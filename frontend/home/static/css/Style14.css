@@ -2,6 +2,7 @@
     --fontHeading: 'PT Sans', sans-serif;
     --fontParrafo: 'Open Sans', sans-serif;
     
+    --fontprimary: rgb(0, 88, 188);
     --primary: #0078ff;
     --secondary: #0077ffe0;
     --verde: #42b72a;
@@ -194,6 +195,42 @@ h4{
         grid-template-columns: repeat(2, 1fr);
         column-gap: 2rem;
     }
+}
+.dos-filas{
+    padding: 2rem;
+}
+@media (min-width: 768px) {
+    .dos-filas{
+        padding: 2rem;
+        display: grid;
+        /*grid-template-columns: 50% 50%;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-columns: 1fr 1fr;*/
+        grid-template-rows: 1fr 5fr;
+        row-gap: 2rem;
+    }
+}
+.contenedor-select select {
+    width: 100%;
+    height: 40px;
+    color: var(--fontprimary);
+    border: 2px solid var(--fontprimary);
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    vertical-align: middle;
+    padding-left: 1rem;
+    font-size: 2.4rem;
+}
+@media (max-width: 768px){
+    .contenedor-select select {
+        margin-bottom: 0.5rem;
+    }
+}
+.contenedor-img img {
+    display: block;
+    margin: auto;
+    height: 450px;
 }
 .input{
     outline: none;
