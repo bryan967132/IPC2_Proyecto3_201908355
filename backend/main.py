@@ -44,8 +44,12 @@ def reset():
 @app.route('/dateEnterprise',methods = ['POST'])
 def getDateEnterprise():
     data = request.json
-    print(data)
-    return ctrl.graph(data['fecha'],data['empresa'])
+    return ctrl.getDateEnt(data['fecha'],data['empresa'])
+
+@app.route('/rangeDate',methods = ['POST'])
+def getRangeDate():
+    data = request.json
+    return ctrl.getRangeDate(data['fechaInicio'],data['fechaFinal'],data['empresa'])
 
 if __name__ == '__main__':
     app.run(port = 3000,debug = True)
