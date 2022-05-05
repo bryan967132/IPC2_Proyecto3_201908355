@@ -22,5 +22,30 @@ def upload():
 def analize():
     return ctrl.analize()
 
+@app.route('/date',methods = ['GET'])
+def getDates():
+    try:
+        return {'fechas':ctrl.fechas}
+    except:
+        return {'fechas':[]}
+
+@app.route('/enterprise',methods = ['GET'])
+def getEnterprises():
+    try:
+        return {'empresas':ctrl.empresas}
+    except:
+        return {'empresas':[]}
+
+@app.route('/reset',methods = ['DELETE'])
+def reset():
+    ctrl.reset()
+    return {'status':'reseted'}
+
+@app.route('/dateEnterprise',methods = ['POST'])
+def getDateEnterprise():
+    data = request.json
+    print(data)
+    return ctrl.graph(data['fecha'],data['empresa'])
+
 if __name__ == '__main__':
     app.run(port = 3000,debug = True)

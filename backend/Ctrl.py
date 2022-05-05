@@ -1,19 +1,26 @@
+import os
+import matplotlib.pyplot as plotpy
+from matplotlib import colors
+from datetime import datetime
 from ParserXML import Parser
 import re
+import json
 class Ctrl:
     def upload(self,ruta : str):
         try:
             self.parser = Parser()
+            self.parsed = self.parser.parseXMLtoJSON(f'./{ruta}')
             self.fechas = self.parser.fechas
-            self.parsed = self.parser.parseXMLtoJSON(f'../{ruta}')
-            contenido = open(f'../{ruta}',encoding = 'utf-8').read()
+            self.fechas.sort(key = lambda date : datetime.strptime(date,'%d/%m/%Y'))
+            self.empresas = self.parser.empresas
+            contenido = open(f'./{ruta}',encoding = 'utf-8').read()
             return contenido
         except:
             return ''
 
     def analize(self):
-        msg_fecha_general = self.countGeneral()
-        return self.parser.parseJSONtoXML(msg_fecha_general)
+        self.msg_fecha_general = self.countGeneral()
+        return self.parser.parseJSONtoXML(self.msg_fecha_general)
     
     def countGeneral(self):
         msg_fecha_general = []
@@ -116,3 +123,46 @@ class Ctrl:
             n = re.findall(f'\\b({negativo})\\b',mensaje)
             cantn += len(n)
         return [cantp,cantn]
+    
+    def reset(self):
+        try:
+            del self.fechas
+            del self.empresas
+        except:
+            pass
+        if os.path.exists('frontend/home/static/images/Grafica.png'):
+            os.remove('frontend/home/static/images/Grafica.png')
+        return {'status':'reseted'}
+
+    def graph(self,fechaR,empresaR):
+        try:
+            total = 0
+            positivos = 0
+            negativos = 0
+            neutros = 0
+            for fecha in self.msg_fecha_general:
+                llave = list(fecha.keys())[0]
+                if llave == fechaR:
+                    for empresa in fecha[llave]['analisis']:
+                        if empresa['empresa'] == empresaR:
+                            total = empresa['total']
+                            positivos = empresa['positivos']
+                            negativos = empresa['negativos']
+                            neutros = empresa['neutros']
+                        elif empresaR == 'Todas las empresas':
+                            total += empresa['total']
+                            positivos += empresa['positivos']
+                            negativos += empresa['negativos']
+                            neutros += empresa['neutros']
+            nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
+            vend = [positivos,negativos,neutros]
+            fig, ax = plotpy.subplots()
+            fig.canvas.manager.set_window_title('Grafica') 
+            ax.pie(vend,autopct = "%0.1f%%")
+            ax.set_title(f'Empresa: {empresaR}\nFecha: {fechaR}\nMensajes Totales: {total}')
+            ax.legend(nombre,loc = 'upper left')
+            ax.grid(True)
+            plotpy.savefig('frontend/home/static/images/Grafica.png',dpi = 300)
+            return {'status':'grafica generada'}
+        except:
+            return {'status':'ocurrio un error'}

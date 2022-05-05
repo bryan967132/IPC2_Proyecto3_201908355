@@ -2,10 +2,12 @@
     --fontHeading: 'PT Sans', sans-serif;
     --fontParrafo: 'Open Sans', sans-serif;
     
+    --fontprimary: rgb(0, 88, 188);
     --primary: #0078ff;
     --secondary: #0077ffe0;
     --verde: #42b72a;
     --rojo: #C03425;
+    --rojo1: #a5281b;
     --gris: #bbbdbf;
     --blanco: #fff;
     --negro: #000;
@@ -194,6 +196,42 @@ h4{
         column-gap: 2rem;
     }
 }
+.dos-filas{
+    padding: 2rem;
+}
+@media (min-width: 768px) {
+    .dos-filas{
+        padding: 2rem;
+        display: grid;
+        /*grid-template-columns: 50% 50%;
+        grid-template-columns: repeat(2, 50%);
+        grid-template-columns: 1fr 1fr;*/
+        grid-template-rows: 1fr 5fr;
+        row-gap: 2rem;
+    }
+}
+.contenedor-select select {
+    width: 100%;
+    height: 40px;
+    color: var(--fontprimary);
+    border: 2px solid var(--fontprimary);
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+    vertical-align: middle;
+    padding-left: 1rem;
+    font-size: 2.4rem;
+}
+@media (max-width: 768px){
+    .contenedor-select select {
+        margin-bottom: 0.5rem;
+    }
+}
+.contenedor-img img {
+    display: block;
+    margin: auto;
+    height: 450px;
+}
 .input{
     outline: none;
     min-width: 100%;
@@ -295,4 +333,57 @@ h4{
 }
 #menu ul li:hover > ul {
     display:block;
+}
+
+.modalDialog {
+	position: fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+.modalDialog > div {
+	width: 100rem;
+    height: 40rem;
+	position: relative;
+	margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+  -webkit-transition: opacity 400ms ease-in;
+-moz-transition: opacity 400ms ease-in;
+transition: opacity 400ms ease-in;
+}
+.close {
+	background: var(--rojo);
+	color: var(--blanco);
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+.close:hover {
+    background: var(--rojo1);
 }

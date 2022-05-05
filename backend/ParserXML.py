@@ -5,10 +5,15 @@ import re
 class Parser:
     def __init__(self):
         self.fechas = []
+        self.empresas = []
 
     def appendDates(self,fecha):
         if fecha not in self.fechas:
             self.fechas.append(fecha)
+    
+    def appendEnterprise(self,empresa):
+        if empresa not in self.empresas:
+            self.empresas.append(empresa)
 
     def deleteChar(self,texto):
         texto = texto.lower()
@@ -45,6 +50,7 @@ class Parser:
                 for al in servicio.getElementsByTagName('alias'):
                     alias.append(self.deleteChar(al.firstChild.data.strip()))
                 servicios.append(Servicio(self.deleteChar(nomServ),alias).__dict__)
+            self.appendEnterprise(self.deleteChar(nombre))
             empresas.append(Empresa(self.deleteChar(nombre),servicios).__dict__)
         
         mensajes = []
