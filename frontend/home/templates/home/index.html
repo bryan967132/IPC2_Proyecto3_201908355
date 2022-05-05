@@ -8,7 +8,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/Style4.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style10.css' %}">
 </head>
 <body>
     <header class="header">
@@ -41,7 +41,25 @@
                                 </li>
                             </ul>
                         </nav>
-                        <a href="#" class="navegacion__enlace">Ayuda</a>
+                        <nav id="menu"  class="navegacion__enlace">
+                            <ul>
+                                <li>
+                                    <a href="#">Ayuda</a>
+                                    <ul>
+                                        <li><a href="#openModal" name="btnDsrll" type="submit" style="cursor:pointer">Desarrollador</a></li>
+                                        <div id="openModal" class="modalDialog">
+                                            <div>
+                                                <a href="#close" title="close" class="close" style="padding-right: 17px;">x</a>
+                                                <h2 style="color: #0078ff">Desarrollador</h2>
+                                                <h3 style="color: #0078ff">Danny Hugo Bryan Tejaxún Pichiyá</h3>
+                                                <h3 style="color: #0078ff">201908355</h3>
+                                            </div>
+                                        </div>
+                                        <li><input name="btnDcmnt" type="submit" value="Documentación"></input></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </nav>
                 </div>
             </div>
@@ -57,6 +75,6 @@
             </div>
         </form>
     </header>
-    <script src="{% static 'js/Script.js' %}"></script>
+    <script src="{% static 'js/Script2.js' %}"></script>
 </body>
 </html>

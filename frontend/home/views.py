@@ -1,3 +1,4 @@
+import webbrowser
 from django.shortcuts import render
 from .models import Archivo
 import requests as req
@@ -25,6 +26,9 @@ def home(requests):
             out = Archivo.objects.last().response
         except:
             pass
+    if requests.method == 'POST' and 'btnDcmnt' in requests.POST:
+        #webbrowser.open('../../Ensayo.pdf')
+        pass
     return render(requests,'home/index.html',{'status':'working','enter':enter,'out':out})
 
 def upload(requests):
