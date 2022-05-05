@@ -174,45 +174,48 @@ class Ctrl:
             return {'status':'ocurrio un error'}
 
     def getRangeDate(self,fechaInicio,fechaFinal,empresaR):
-        start = dtime.datetime.strptime(fechaInicio,'%d/%m/%Y')
-        end = dtime.datetime.strptime(fechaFinal,'%d/%m/%Y')
-        fechasGeneradas = pd.date_range(start,end)
         self.contador = 0
-        for fecha in self.msg_fecha_general:
-            llave = list(fecha.keys())[0]
-            total = 0
-            positivos = 0
-            negativos = 0
-            neutros = 0
-            if dtime.datetime.strptime(llave,'%d/%m/%Y') in fechasGeneradas:
-                self.contador += 1
-                for empresa in fecha[llave]['analisis']:
-                    if empresa['empresa'] == empresaR:
-                        total = empresa['total']
-                        positivos = empresa['positivos']
-                        negativos = empresa['negativos']
-                        neutros = empresa['neutros']
-                        break
-                    elif empresaR == 'Todas las empresas':
-                        total += empresa['total']
-                        positivos += empresa['positivos']
-                        negativos += empresa['negativos']
-                        neutros += empresa['neutros']
-                print('FECHA:',llave)
-                print('EMPRESA:',empresaR)
-                print('TOTAL:',total)
-                print('POSITIVOS:',positivos)
-                print('NEGATIVOS:',negativos)
-                print('NEUTROS:',neutros)
+        try:
+            start = dtime.datetime.strptime(fechaInicio,'%d/%m/%Y')
+            end = dtime.datetime.strptime(fechaFinal,'%d/%m/%Y')
+            fechasGeneradas = pd.date_range(start,end)
+            for fecha in self.msg_fecha_general:
+                llave = list(fecha.keys())[0]
+                total = 0
+                positivos = 0
+                negativos = 0
+                neutros = 0
+                if dtime.datetime.strptime(llave,'%d/%m/%Y') in fechasGeneradas:
+                    self.contador += 1
+                    for empresa in fecha[llave]['analisis']:
+                        if empresa['empresa'] == empresaR:
+                            total = empresa['total']
+                            positivos = empresa['positivos']
+                            negativos = empresa['negativos']
+                            neutros = empresa['neutros']
+                            break
+                        elif empresaR == 'Todas las empresas':
+                            total += empresa['total']
+                            positivos += empresa['positivos']
+                            negativos += empresa['negativos']
+                            neutros += empresa['neutros']
+                    print('FECHA:',llave)
+                    print('EMPRESA:',empresaR)
+                    print('TOTAL:',total)
+                    print('POSITIVOS:',positivos)
+                    print('NEGATIVOS:',negativos)
+                    print('NEUTROS:',neutros)
 
-                nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
-                vend = [positivos,negativos,neutros]
-                fig, ax = plotpy.subplots()
-                fig.canvas.manager.set_window_title('Grafica') 
-                ax.pie(vend,autopct = "%0.1f%%")
-                ax.set_title(f'Empresa: {empresaR}\nFecha: {llave}\nMensajes Totales: {total}')
-                ax.legend(nombre,loc = 'upper left')
-                ax.grid(True)
-                plotpy.savefig(f'../frontend/home/static/images/Grafica{self.contador}.png',dpi = 300)
-        return {'imagenesgeneradas':self.contador}
+                    nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
+                    vend = [positivos,negativos,neutros]
+                    fig, ax = plotpy.subplots()
+                    fig.canvas.manager.set_window_title('Grafica') 
+                    ax.pie(vend,autopct = "%0.1f%%")
+                    ax.set_title(f'Empresa: {empresaR}\nFecha: {llave}\nMensajes Totales: {total}')
+                    ax.legend(nombre,loc = 'upper left')
+                    ax.grid(True)
+                    plotpy.savefig(f'../frontend/home/static/images/Grafica{self.contador}.png',dpi = 300)
+            return {'imagenesgeneradas':self.contador}
+        except:
+            return {'imagenesgeneradas':self.contador}
         
