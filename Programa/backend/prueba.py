@@ -2,6 +2,8 @@ import webbrowser
 import matplotlib.pyplot as plotpy
 from matplotlib import colors
 
+import datetime
+import pandas as pd
 
 diccionario = [
     {
@@ -118,46 +120,92 @@ diccionario = [
     }
 ]
 
-fechaR = '01/04/2022'
+fechaInicio = '03/03/2021'
+start = datetime.datetime.strptime(fechaInicio,'%d/%m/%Y')
+fechaFinal = '01/04/2022'
+end = datetime.datetime.strptime(fechaFinal,'%d/%m/%Y')
+
+fechasGeneradas = pd.date_range(start,end)
+
 empresaR = 'Todas las empresas'
 
-total = 0
-positivos = 0
-negativos = 0
-neutros = 0
-
+contador = 1
 for fecha in diccionario:
     llave = list(fecha.keys())[0]
-    if llave == fechaR:
+    total = 0
+    positivos = 0
+    negativos = 0
+    neutros = 0
+    if datetime.datetime.strptime(llave,'%d/%m/%Y') in fechasGeneradas:
         for empresa in fecha[llave]['analisis']:
             if empresa['empresa'] == empresaR:
                 total = empresa['total']
                 positivos = empresa['positivos']
                 negativos = empresa['negativos']
                 neutros = empresa['neutros']
+                break
             elif empresaR == 'Todas las empresas':
                 total += empresa['total']
                 positivos += empresa['positivos']
                 negativos += empresa['negativos']
                 neutros += empresa['neutros']
+        print('FECHA:',llave)
+        print('EMPRESA:',empresaR)
+        print('TOTAL:',total)
+        print('POSITIVOS:',positivos)
+        print('NEGATIVOS:',negativos)
+        print('NEUTROS:',neutros)
 
-print('FECHA:',fechaR)
-print('EMPRESA:',empresaR)
-print('TOTAL:',total)
-print('POSITIVOS:',positivos)
-print('NEGATIVOS:',negativos)
-print('NEUTROS:',neutros)
+        nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
+        vend = [positivos,negativos,neutros]
+        fig, ax = plotpy.subplots()
+        fig.canvas.manager.set_window_title('Grafica') 
+        ax.pie(vend,autopct = "%0.1f%%")
+        ax.set_title(f'Empresa: {empresaR}\nFecha: {llave}\nMensajes Totales: {total}')
+        ax.legend(nombre,loc = 'upper left')
+        ax.grid(True)
+        plotpy.savefig(f'frontend/home/static/images/Grafica{contador}.png',dpi = 300)
+        contador += 1
 
-nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
-vend = [positivos,negativos,neutros]  
-normdata = colors.Normalize(min(vend), max(vend))
-fig, ax = plotpy.subplots()
-fig.canvas.manager.set_window_title('Grafica') 
-ax.pie(vend,autopct = "%0.1f%%")
-ax.set_title(f'Empresa: {empresaR}\nFecha: {fechaR}\nMensajes Totales: {total}')
-ax.legend(nombre,loc = 'upper left')
-ax.grid(True)
-plotpy.savefig('frontend/home/static/images/Grafica.png',dpi = 300)
+#fechaR = '01/04/2022'
+#empresaR = 'usac'
+#
+#total = 0
+#positivos = 0
+#negativos = 0
+#neutros = 0
+#
+#for fecha in diccionario:
+#    llave = list(fecha.keys())[0]
+#    if llave == fechaR:
+#        for empresa in fecha[llave]['analisis']:
+#            if empresa['empresa'] == empresaR:
+#                total = empresa['total']
+#                positivos = empresa['positivos']
+#                negativos = empresa['negativos']
+#                neutros = empresa['neutros']
+#            elif empresaR == 'Todas las empresas':
+#                total += empresa['total']
+#                positivos += empresa['positivos']
+#                negativos += empresa['negativos']
+#                neutros += empresa['neutros']
+#
+#print('FECHA:',fechaR)
+#print('EMPRESA:',empresaR)
+#print('TOTAL:',total)
+#print('POSITIVOS:',positivos)
+#print('NEGATIVOS:',negativos)
+#print('NEUTROS:',neutros)
+#
+#nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
+#vend = [positivos,negativos,neutros]
+#fig, ax = plotpy.subplots()
+#fig.canvas.manager.set_window_title('Grafica') 
+#ax.pie(vend,autopct = "%0.1f%%")
+#ax.set_title(f'Empresa: {empresaR}\nFecha: {fechaR}\nMensajes Totales: {total}')
+#ax.legend(nombre,loc = 'upper left')
+#ax.grid(True)
+#plotpy.savefig('frontend/home/static/images/Grafica.png',dpi = 300)
 
 #from datetime import datetime
 #

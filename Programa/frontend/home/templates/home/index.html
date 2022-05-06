@@ -8,7 +8,7 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/Style14.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="header">
@@ -46,7 +46,7 @@
                                 <li>
                                     <a href="#">Ayuda</a>
                                     <ul>
-                                        <li><a href="#openModal" name="btnDsrll" type="submit" style="cursor:pointer">Desarrollador</a></li>
+                                        <li><a href="#openModal" name="btnDsrll" type="submit" style="vertical-align:middle;height:40px;cursor:pointer">Desarrollador</a></li>
                                         <div id="openModal" class="modalDialog">
                                             <div>
                                                 <a href="#close" title="close" class="close" style="padding-right: 17px;">x</a>
@@ -55,7 +55,8 @@
                                                 <h3 style="color: #0078ff">201908355</h3>
                                             </div>
                                         </div>
-                                        <li><input name="btnDcmnt" type="submit" value="Documentación"></input></li>
+                                        <li><input name="btnEnsy" type="submit" value="Ensayo"></li>
+                                        <li><input name="btnDgrm" type="submit" value="Diagrama"></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -75,6 +76,6 @@
             </div>
         </form>
     </header>
-    <script src="{% static 'js/Script2.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
