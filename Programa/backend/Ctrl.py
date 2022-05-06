@@ -1,9 +1,10 @@
-import os
 import matplotlib.pyplot as plotpy
 from datetime import datetime
 from ParserXML import Parser
-import pandas as pd
 import datetime as dtime
+import pandas as pd
+import json
+import os
 import re
 class Ctrl:
     def upload(self,ruta : str):
@@ -140,26 +141,38 @@ class Ctrl:
             pass
         return {'status':'reseted'}
 
-    def getDateEnt(self,fechaR,empresaR):
+    def getDateCant(self,fechaR,empresaR):
+        total = 0
+        positivos = 0
+        negativos = 0
+        neutros = 0
+        for fecha in self.msg_fecha_general:
+            llave = list(fecha.keys())[0]
+            if llave == fechaR:
+                for empresa in fecha[llave]['analisis']:
+                    if empresa['empresa'] == empresaR:
+                        total = empresa['total']
+                        positivos = empresa['positivos']
+                        negativos = empresa['negativos']
+                        neutros = empresa['neutros']
+                    elif empresaR == 'Todas las empresas':
+                        total += empresa['total']
+                        positivos += empresa['positivos']
+                        negativos += empresa['negativos']
+                        neutros += empresa['neutros']
+        return json.dumps(
+            {
+                'fecha':fechaR,
+                'empresa':empresaR,
+                'total':total,
+                'positivos':positivos,
+                'negativos':negativos,
+                'neutros':neutros
+            }
+        )
+
+    def graphDateCant(self,fechaR,empresaR,total,positivos,negativos,neutros):
         try:
-            total = 0
-            positivos = 0
-            negativos = 0
-            neutros = 0
-            for fecha in self.msg_fecha_general:
-                llave = list(fecha.keys())[0]
-                if llave == fechaR:
-                    for empresa in fecha[llave]['analisis']:
-                        if empresa['empresa'] == empresaR:
-                            total = empresa['total']
-                            positivos = empresa['positivos']
-                            negativos = empresa['negativos']
-                            neutros = empresa['neutros']
-                        elif empresaR == 'Todas las empresas':
-                            total += empresa['total']
-                            positivos += empresa['positivos']
-                            negativos += empresa['negativos']
-                            neutros += empresa['neutros']
             nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
             vend = [positivos,negativos,neutros]
             fig, ax = plotpy.subplots()
@@ -169,53 +182,61 @@ class Ctrl:
             ax.legend(nombre,loc = 'upper left')
             ax.grid(True)
             plotpy.savefig('../frontend/home/static/images/Grafica.png',dpi = 300)
-            return {'status':'grafica generada'}
+            return {'empresa':'grafica generada'}
         except:
+            print('ocurre un error')
             return {'status':'ocurrio un error'}
 
-    def getRangeDate(self,fechaInicio,fechaFinal,empresaR):
+    def getRangeDateCant(self,fechaInicio,fechaFinal,empresaR):
+        resultadoRango = []
+        start = dtime.datetime.strptime(fechaInicio,'%d/%m/%Y')
+        end = dtime.datetime.strptime(fechaFinal,'%d/%m/%Y')
+        fechasGeneradas = pd.date_range(start,end)
+        for fecha in self.msg_fecha_general:
+            llave = list(fecha.keys())[0]
+            total = 0
+            positivos = 0
+            negativos = 0
+            neutros = 0
+            if dtime.datetime.strptime(llave,'%d/%m/%Y') in fechasGeneradas:
+                for empresa in fecha[llave]['analisis']:
+                    if empresa['empresa'] == empresaR:
+                        total = empresa['total']
+                        positivos = empresa['positivos']
+                        negativos = empresa['negativos']
+                        neutros = empresa['neutros']
+                        break
+                    elif empresaR == 'Todas las empresas':
+                        total += empresa['total']
+                        positivos += empresa['positivos']
+                        negativos += empresa['negativos']
+                        neutros += empresa['neutros']
+                resultadoRango.append({
+                    'fecha':llave,
+                    'empresa':empresaR,
+                    'total':total,
+                    'positivos':positivos,
+                    'negativos':negativos,
+                    'neutros':neutros
+                })
+        return json.dumps(resultadoRango)
+
+    def graphRangeDateCant(self,data):
+        listaNum = []
         self.contador = 0
         try:
-            start = dtime.datetime.strptime(fechaInicio,'%d/%m/%Y')
-            end = dtime.datetime.strptime(fechaFinal,'%d/%m/%Y')
-            fechasGeneradas = pd.date_range(start,end)
-            for fecha in self.msg_fecha_general:
-                llave = list(fecha.keys())[0]
-                total = 0
-                positivos = 0
-                negativos = 0
-                neutros = 0
-                if dtime.datetime.strptime(llave,'%d/%m/%Y') in fechasGeneradas:
-                    self.contador += 1
-                    for empresa in fecha[llave]['analisis']:
-                        if empresa['empresa'] == empresaR:
-                            total = empresa['total']
-                            positivos = empresa['positivos']
-                            negativos = empresa['negativos']
-                            neutros = empresa['neutros']
-                            break
-                        elif empresaR == 'Todas las empresas':
-                            total += empresa['total']
-                            positivos += empresa['positivos']
-                            negativos += empresa['negativos']
-                            neutros += empresa['neutros']
-                    print('FECHA:',llave)
-                    print('EMPRESA:',empresaR)
-                    print('TOTAL:',total)
-                    print('POSITIVOS:',positivos)
-                    print('NEGATIVOS:',negativos)
-                    print('NEUTROS:',neutros)
-
-                    nombre = [f'Positivos: {positivos}',f'Negativos: {negativos}',f'Neutros: {neutros}']
-                    vend = [positivos,negativos,neutros]
-                    fig, ax = plotpy.subplots()
-                    fig.canvas.manager.set_window_title('Grafica') 
-                    ax.pie(vend,autopct = "%0.1f%%")
-                    ax.set_title(f'Empresa: {empresaR}\nFecha: {llave}\nMensajes Totales: {total}')
-                    ax.legend(nombre,loc = 'upper left')
-                    ax.grid(True)
-                    plotpy.savefig(f'../frontend/home/static/images/Grafica{self.contador}.png',dpi = 300)
-            return {'imagenesgeneradas':self.contador}
+            for empresa in data:
+                self.contador += 1
+                listaNum.append(self.contador)
+                nombre = [f'Positivos: {empresa["positivos"]}',f'Negativos: {empresa["negativos"]}',f'Neutros: {empresa["neutros"]}']
+                vend = [empresa['positivos'],empresa['negativos'],empresa['neutros']]
+                fig, ax = plotpy.subplots()
+                fig.canvas.manager.set_window_title('Grafica') 
+                ax.pie(vend,autopct = "%0.1f%%")
+                ax.set_title(f'Empresa: {empresa["empresa"]}\nFecha: {empresa["fecha"]}\nMensajes Totales: {empresa["total"]}')
+                ax.legend(nombre,loc = 'upper left')
+                ax.grid(True)
+                plotpy.savefig(f'../frontend/home/static/images/Grafica{self.contador}.png',dpi = 300)
+            return {'imagenesgeneradas':listaNum}
         except:
-            return {'imagenesgeneradas':self.contador}
-        
+            return {'imagenesgeneradas':listaNum}
