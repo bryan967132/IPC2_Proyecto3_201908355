@@ -70,12 +70,12 @@ def graphRangeDateCant():
     
 @app.route('/ensayo',methods = ['GET'])
 def ensayo():
-    webbrowser.open('Documentacion/Ensayo.pdf')
+    webbrowser.open('../../Documentacion/Ensayo.pdf')
     return {'status':'abierto'}
 
 @app.route('/diagrama',methods = ['GET'])
 def diagrama():
-    webbrowser.open('Documentacion/DiagramaProyecto3.pdf')
+    webbrowser.open('../../Documentacion/DiagramaProyecto3.pdf')
     return {'status':'abierto'}
 
 if __name__ == '__main__':
